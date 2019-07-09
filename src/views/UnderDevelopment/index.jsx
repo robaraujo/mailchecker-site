@@ -32,30 +32,7 @@ class UnderDevelopment extends Component {
 
     return (
       <div className={classes.root}>
-        <Grid
-          container
-          justify="center"
-          spacing={4}
-        >
-          <Grid
-            item
-            lg={6}
-            xs={12}
-          >
-            <div className={classes.content}>
-              <Typography variant="h1">Page Under Development</Typography>
-              <Typography variant="subtitle2">
-                We are still developing this page, please visit repo at
-                github.com/repo/aesthetic-material
-              </Typography>
-              <img
-                alt="Under development"
-                className={classes.image}
-                src="/images/under_development.png"
-              />
-            </div>
-          </Grid>
-        </Grid>
+        <a href="/sign-up">Cadastrar</a>
       </div>
     );
   }

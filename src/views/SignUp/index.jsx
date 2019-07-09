@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
 // Externals
 import PropTypes from 'prop-types';
@@ -32,26 +33,18 @@ import styles from './styles';
 
 // Form validation schema
 import schema from './schema';
+import { register, reset } from '../../store/auth';
 
 validate.validators.checked = validators.checked;
-
-// Service methods
-const signUp = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(true);
-    }, 1500);
-  });
-};
 
 class SignUp extends Component {
   state = {
     values: {
-      firstName: '',
-      lastName: '',
-      email: '',
-      password: '',
-      policy: false
+      firstName: 'Roberto',
+      lastName: 'Araujo',
+      email: 'robaraujo404@gmail.com',
+      password: '123456',
+      policy: true
     },
     touched: {
       firstName: false,
@@ -67,15 +60,18 @@ class SignUp extends Component {
       password: null,
       policy: null
     },
-    isValid: false,
-    isLoading: false,
-    submitError: null
+    isValid: false
+  };
+
+  componentDidUpdate = prevProps => {
+    console.log(this.props.auth);
+    if (this.props.auth.user) {
+      this.props.history.push('/dashboard');
+    }
   };
 
   handleBack = () => {
-    const { history } = this.props;
-
-    history.goBack();
+    this.props.goBack();
   };
 
   validateForm = _.debounce(() => {
@@ -92,47 +88,27 @@ class SignUp extends Component {
 
   handleFieldChange = (field, value) => {
     const newState = { ...this.state };
-
-    newState.submitError = null;
     newState.touched[field] = true;
     newState.values[field] = value;
 
     this.setState(newState, this.validateForm);
+    this.props.onReset();
   };
 
   handleSignUp = async () => {
-    try {
-      const { history } = this.props;
-      const { values } = this.state;
+    const { values } = this.state;
 
-      this.setState({ isLoading: true });
-
-      await signUp({
-        firstName: values.firstName,
-        lastName: values.lastName,
-        email: values.email,
-        password: values.password
-      });
-
-      history.push('/sign-in');
-    } catch (error) {
-      this.setState({
-        isLoading: false,
-        serviceError: error
-      });
-    }
+    this.props.onRegister({
+      firstName: values.firstName,
+      lastName: values.lastName,
+      email: values.email,
+      password: values.password
+    });
   };
 
   render() {
-    const { classes } = this.props;
-    const {
-      values,
-      touched,
-      errors,
-      isValid,
-      submitError,
-      isLoading
-    } = this.state;
+    const { classes, auth } = this.props;
+    const { values, touched, errors, isValid } = this.state;
 
     const showFirstNameError =
       touched.firstName && errors.firstName ? errors.firstName[0] : false;
@@ -147,68 +123,40 @@ class SignUp extends Component {
 
     return (
       <div className={classes.root}>
-        <Grid
-          className={classes.grid}
-          container
-        >
-          <Grid
-            className={classes.quoteWrapper}
-            item
-            lg={5}
-          >
+        <Grid className={classes.grid} container>
+          <Grid className={classes.quoteWrapper} item lg={5}>
             <div className={classes.quote}>
               <div className={classes.quoteInner}>
-                <Typography
-                  className={classes.quoteText}
-                  variant="h1"
-                >
+                <Typography className={classes.quoteText} variant="h1">
                   Hella narwhal Cosby sweater McSweeney's, salvia kitsch before
                   they sold out High Life.
                 </Typography>
                 <div className={classes.person}>
-                  <Typography
-                    className={classes.name}
-                    variant="body1"
-                  >
+                  <Typography className={classes.name} variant="body1">
                     Takamaru Ayako
                   </Typography>
-                  <Typography
-                    className={classes.bio}
-                    variant="body2"
-                  >
+                  <Typography className={classes.bio} variant="body2">
                     Manager at inVision
                   </Typography>
                 </div>
               </div>
             </div>
           </Grid>
-          <Grid
-            className={classes.content}
-            item
-            lg={7}
-            xs={12}
-          >
+          <Grid className={classes.content} item lg={7} xs={12}>
             <div className={classes.content}>
               <div className={classes.contentHeader}>
                 <IconButton
                   className={classes.backButton}
-                  onClick={this.handleBack}
-                >
+                  onClick={this.handleBack}>
                   <ArrowBackIcon />
                 </IconButton>
               </div>
               <div className={classes.contentBody}>
                 <form className={classes.form}>
-                  <Typography
-                    className={classes.title}
-                    variant="h2"
-                  >
+                  <Typography className={classes.title} variant="h2">
                     Create new account
                   </Typography>
-                  <Typography
-                    className={classes.subtitle}
-                    variant="body1"
-                  >
+                  <Typography className={classes.subtitle} variant="body1">
                     Use your work email to create new account... it's free.
                   </Typography>
                   <div className={classes.fields}>
@@ -225,8 +173,7 @@ class SignUp extends Component {
                     {showFirstNameError && (
                       <Typography
                         className={classes.fieldError}
-                        variant="body2"
-                      >
+                        variant="body2">
                         {errors.firstName[0]}
                       </Typography>
                     )}
@@ -242,8 +189,7 @@ class SignUp extends Component {
                     {showLastNameError && (
                       <Typography
                         className={classes.fieldError}
-                        variant="body2"
-                      >
+                        variant="body2">
                         {errors.lastName[0]}
                       </Typography>
                     )}
@@ -260,8 +206,7 @@ class SignUp extends Component {
                     {showEmailError && (
                       <Typography
                         className={classes.fieldError}
-                        variant="body2"
-                      >
+                        variant="body2">
                         {errors.email[0]}
                       </Typography>
                     )}
@@ -278,8 +223,7 @@ class SignUp extends Component {
                     {showPasswordError && (
                       <Typography
                         className={classes.fieldError}
-                        variant="body2"
-                      >
+                        variant="body2">
                         {errors.password[0]}
                       </Typography>
                     )}
@@ -295,13 +239,9 @@ class SignUp extends Component {
                       />
                       <Typography
                         className={classes.policyText}
-                        variant="body1"
-                      >
+                        variant="body1">
                         I have read the &nbsp;
-                        <Link
-                          className={classes.policyUrl}
-                          to="#"
-                        >
+                        <Link className={classes.policyUrl} to="#">
                           Terms and Conditions
                         </Link>
                         .
@@ -310,21 +250,17 @@ class SignUp extends Component {
                     {showPolicyError && (
                       <Typography
                         className={classes.fieldError}
-                        variant="body2"
-                      >
+                        variant="body2">
                         {errors.policy[0]}
                       </Typography>
                     )}
                   </div>
-                  {submitError && (
-                    <Typography
-                      className={classes.submitError}
-                      variant="body2"
-                    >
-                      {submitError}
+                  {!!auth.error && (
+                    <Typography className={classes.submitError} variant="body2">
+                      {auth.error}
                     </Typography>
                   )}
-                  {isLoading ? (
+                  {auth.loading ? (
                     <CircularProgress className={classes.progress} />
                   ) : (
                     <Button
@@ -333,20 +269,13 @@ class SignUp extends Component {
                       disabled={!isValid}
                       onClick={this.handleSignUp}
                       size="large"
-                      variant="contained"
-                    >
+                      variant="contained">
                       Sign up now
                     </Button>
                   )}
-                  <Typography
-                    className={classes.signIn}
-                    variant="body1"
-                  >
-                    Have an account?{' '}
-                    <Link
-                      className={classes.signInUrl}
-                      to="/sign-in"
-                    >
+                  <Typography className={classes.signIn} variant="body1">
+                    Have an account?&nbsp;
+                    <Link className={classes.signInUrl} to="/sign-in">
                       Sign In
                     </Link>
                   </Typography>
@@ -366,7 +295,24 @@ SignUp.propTypes = {
   history: PropTypes.object.isRequired
 };
 
+const mapStateToProps = ({ auth }) => {
+  return {
+    auth: auth
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onRegister: form => dispatch(register(form)),
+    onReset: () => dispatch(reset())
+  };
+};
+
 export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
   withRouter,
   withStyles(styles)
 )(SignUp);

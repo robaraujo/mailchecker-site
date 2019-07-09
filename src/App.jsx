@@ -1,17 +1,15 @@
 import React, { Component } from 'react';
 import { Router } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import { PersistGate } from 'redux-persist/integration/react';
+import configureStore from './store/configStore';
 import { createBrowserHistory } from 'history';
+import axios from 'axios';
 
-// Externals
+// material ui
 import { Chart } from 'react-chartjs-2';
-
-// Material helpers
 import { ThemeProvider } from '@material-ui/styles';
-
-// ChartJS helpers
 import { chartjs } from './helpers';
-
-// Theme
 import theme from './theme';
 
 // Styles
@@ -29,14 +27,23 @@ Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
   draw: chartjs.draw
 });
 
+const { store, persistor } = configureStore();
+
+// set default api url
+axios.defaults.baseURL = 'http://localhost:3000';
+
 export default class App extends Component {
   render() {
     return (
-      <ThemeProvider theme={theme}>
-        <Router history={browserHistory}>
-          <Routes />
-        </Router>
-      </ThemeProvider>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <ThemeProvider theme={theme}>
+            <Router history={browserHistory}>
+              <Routes />
+            </Router>
+          </ThemeProvider>
+        </PersistGate>
+      </Provider>
     );
   }
 }
