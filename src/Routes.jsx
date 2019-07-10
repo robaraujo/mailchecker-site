@@ -4,8 +4,7 @@ import { connect } from 'react-redux';
 
 // Views
 import Dashboard from './views/Dashboard';
-import ProductList from './views/ProductList';
-import UserList from './views/UserList';
+import Emails from './views/Emails';
 import Account from './views/Account';
 import Settings from './views/Settings';
 import SignUp from './views/SignUp';
@@ -44,13 +43,7 @@ class Routes extends Component {
           exact
           path="/dashboard"
         />
-        <PrivateRoute auth={auth} component={UserList} exact path="/users" />
-        <PrivateRoute
-          auth={auth}
-          component={ProductList}
-          exact
-          path="/products"
-        />
+        <PrivateRoute auth={auth} component={Emails} exact path="/emails" />
         <PrivateRoute auth={auth} component={Account} exact path="/account" />
         <PrivateRoute auth={auth} component={Settings} exact path="/settings" />
         <Redirect to="/not-found" />

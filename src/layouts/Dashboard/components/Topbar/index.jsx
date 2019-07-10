@@ -1,5 +1,7 @@
 import React, { Component, Fragment } from 'react';
 import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { reset } from '../../../../store/auth';
 
 // Externals
 import classNames from 'classnames';
@@ -10,13 +12,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core';
 
 // Material components
-import {
-  Badge,
-  IconButton,
-  Popover,
-  Toolbar,
-  Typography
-} from '@material-ui/core';
+import { Badge, IconButton, Toolbar, Typography } from '@material-ui/core';
 
 // Material icons
 import {
@@ -28,9 +24,6 @@ import {
 
 // Shared services
 import { getNotifications } from 'services/notification';
-
-// Custom components
-import { NotificationList } from './components';
 
 // Component styles
 import styles from './styles';
@@ -74,10 +67,7 @@ class Topbar extends Component {
   }
 
   handleSignOut = () => {
-    const { history } = this.props;
-
-    localStorage.setItem('isAuthenticated', false);
-    history.push('/sign-in');
+    this.props.onLogout();
   };
 
   handleShowNotifications = event => {
@@ -112,54 +102,19 @@ class Topbar extends Component {
             <IconButton
               className={classes.menuButton}
               onClick={onToggleSidebar}
-              variant="text"
-            >
+              variant="text">
               {isSidebarOpen ? <CloseIcon /> : <MenuIcon />}
             </IconButton>
-            <Typography
-              className={classes.title}
-              variant="h4"
-            >
+            <Typography className={classes.title} variant="h4">
               {title}
             </Typography>
             <IconButton
-              className={classes.notificationsButton}
-              onClick={this.handleShowNotifications}
-            >
-              <Badge
-                badgeContent={notificationsCount}
-                color="primary"
-                variant="dot"
-              >
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <IconButton
               className={classes.signOutButton}
-              onClick={this.handleSignOut}
-            >
+              onClick={this.handleSignOut}>
               <InputIcon />
             </IconButton>
           </Toolbar>
         </div>
-        <Popover
-          anchorEl={notificationsEl}
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'center'
-          }}
-          onClose={this.handleCloseNotifications}
-          open={showNotifications}
-          transformOrigin={{
-            vertical: 'top',
-            horizontal: 'center'
-          }}
-        >
-          <NotificationList
-            notifications={notifications}
-            onSelect={this.handleCloseNotifications}
-          />
-        </Popover>
       </Fragment>
     );
   }
@@ -178,7 +133,17 @@ Topbar.defaultProps = {
   onToggleSidebar: () => {}
 };
 
+const mapDispatchToProps = dispatch => {
+  return {
+    onLogout: () => dispatch(reset())
+  };
+};
+
 export default compose(
+  connect(
+    null,
+    mapDispatchToProps
+  ),
   withRouter,
   withStyles(styles)
 )(Topbar);

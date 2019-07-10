@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
 
 // Externals
 import PropTypes from 'prop-types';
@@ -33,6 +32,9 @@ import styles from './styles';
 
 // Form validation schema
 import schema from './schema';
+
+// redux
+import { connect } from 'react-redux';
 import { register, reset } from '../../store/auth';
 
 validate.validators.checked = validators.checked;
@@ -64,7 +66,6 @@ class SignUp extends Component {
   };
 
   componentDidUpdate = prevProps => {
-    console.log(this.props.auth);
     if (this.props.auth.user) {
       this.props.history.push('/dashboard');
     }

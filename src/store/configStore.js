@@ -5,9 +5,11 @@ import thunk from 'redux-thunk';
 import createFilter from 'redux-persist-transform-filter';
 
 import authReducer from './auth';
+import emailReducer from './email';
 
 const reducers = {
-  auth: authReducer
+  auth: authReducer,
+  email: emailReducer
 };
 
 // just store user from auth
