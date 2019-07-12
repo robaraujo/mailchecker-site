@@ -14,6 +14,7 @@ export const Types = {
 
 // Reducer
 const initialState = {
+  token: null,
   user: null,
   loading: false,
   error: null
@@ -33,7 +34,8 @@ export default function reducer(state = initialState, action) {
         ...state,
         loading: false,
         error: null,
-        user: action.payload
+        token: 'Bearer ' + action.payload.token,
+        user: action.payload.user
       };
     case Types.REGISTER_FAILURE:
     case Types.LOGIN_FAILURE:
@@ -64,7 +66,7 @@ export function register(form) {
       res => {
         dispatch({
           type: Types.REGISTER_SUCCESS,
-          payload: res.data.user
+          payload: res.data
         });
       },
       err => {
@@ -83,7 +85,7 @@ export function login(form) {
 
     axios.post('/auth/login', form).then(
       res => {
-        dispatch({ type: Types.LOGIN_SUCCESS, payload: res });
+        dispatch({ type: Types.LOGIN_SUCCESS, payload: res.data });
       },
       err => {
         console.log(err);

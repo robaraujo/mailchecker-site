@@ -11,9 +11,9 @@ export default theme => ({
     height: '40px'
   },
   exportIcon: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   },
   searchInput: {
-    marginRight: theme.spacing.unit
+    marginRight: theme.spacing(1)
   }
 });

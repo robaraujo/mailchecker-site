@@ -72,7 +72,7 @@ class SignUp extends Component {
   };
 
   handleBack = () => {
-    this.props.goBack();
+    this.props.history.goBack();
   };
 
   validateForm = _.debounce(() => {

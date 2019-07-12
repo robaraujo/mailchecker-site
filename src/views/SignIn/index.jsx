@@ -36,15 +36,6 @@ import schema from './schema';
 import { connect } from 'react-redux';
 import { login, reset } from '../../store/auth';
 
-// Service methods
-const signIn = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve(true);
-    }, 1500);
-  });
-};
-
 class SignIn extends Component {
   state = {
     values: {

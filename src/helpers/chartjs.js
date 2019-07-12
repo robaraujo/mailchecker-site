@@ -1,3 +1,5 @@
+import palette from '../theme/palette';
+
 // ChartJS extension rounded bar chart
 // https://codepen.io/jedtrow/full/ygRYgo
 function draw() {
@@ -186,6 +188,28 @@ function draw() {
     ctx.stroke();
   }
 }
+
+// Chart options
+export const options = {
+  legend: {
+    display: false
+  },
+  maintainAspectRatio: false,
+  animation: false,
+  cutoutPercentage: 60,
+  layout: { padding: 0 },
+  tooltips: {
+    enabled: true,
+    mode: 'index',
+    intersect: false,
+    borderWidth: 1,
+    borderColor: palette.border,
+    backgroundColor: palette.common.white,
+    titleFontColor: palette.text.primary,
+    bodyFontColor: palette.text.secondary,
+    footerFontColor: palette.text.secondary
+  }
+};
 
 export default {
   draw

@@ -1,5 +1,7 @@
 export default theme => ({
-  root: {},
+  root: {
+    padding: theme.spacing(3)
+  },
   emailMassContainer: {
     position: 'relative',
     boxSizing: 'border-box',

@@ -12,14 +12,14 @@ const reducers = {
   email: emailReducer
 };
 
-// just store user from auth
-const filterAuth = createFilter('auth', ['user']);
+// just store user and token from auth
+const filterAuth = createFilter('auth', ['user', 'token']);
 
 // Persistor Configuration to whitelist and blacklist any reducer
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['auth'],
+  whitelist: ['auth', 'email'],
   transforms: [filterAuth]
 };
 const persistedReducer = persistCombineReducers(persistConfig, reducers);

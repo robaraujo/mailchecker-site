@@ -4,7 +4,6 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import configureStore from './store/configStore';
 import { createBrowserHistory } from 'history';
-import axios from 'axios';
 
 // material ui
 import { Chart } from 'react-chartjs-2';
@@ -28,9 +27,6 @@ Chart.helpers.extend(Chart.elements.Rectangle.prototype, {
 });
 
 const { store, persistor } = configureStore();
-
-// set default api url
-axios.defaults.baseURL = 'http://localhost:3000';
 
 export default class App extends Component {
   render() {

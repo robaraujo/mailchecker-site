@@ -6,19 +6,26 @@ export const Types = {
   LIST_SUCCESS: 'email/LIST_SUCCESS',
   LIST_FAILURE: 'email/LIST_FAILURE',
   VALIDATE_REQUEST: 'email/VALIDATE_REQUEST',
+  VALIDATE_FAILURE: 'email/VALIDATE_FAILURE',
   VALIDATE_SUCCESS: 'email/VALIDATE_SUCCESS',
-  VALIDATE_FAILURE: 'email/VALIDATE_FAILURE'
+  CLEAR_VALIDATED: 'email/CLEAR_VALIDATED'
 };
 
 // Reducer
 const initialState = {
-  list: [],
+  list: null,
+  recent: {
+    mass: null,
+    one: null
+  },
+  validatedOne: null,
   loading: false,
   error: null
 };
 export default function reducer(state = initialState, action) {
   switch (action.type) {
     case Types.LIST_REQUEST:
+    case Types.VALIDATE_REQUEST:
       return {
         ...state,
         loading: true,
@@ -32,10 +39,36 @@ export default function reducer(state = initialState, action) {
         list: action.payload
       };
     case Types.LIST_FAILURE:
+    case Types.VALIDATE_FAILURE:
       return {
         ...state,
         loading: false,
         error: action.payload
+      };
+    case Types.VALIDATE_SUCCESS:
+      console.log(action.payload);
+      console.log({
+        ...state,
+        loading: false,
+        error: action.payload,
+        recent: {
+          ...state.recent,
+          [action.payload.type]: action.payload.emails
+        }
+      });
+      return {
+        ...state,
+        loading: false,
+        error: action.payload,
+        recent: {
+          ...state.recent,
+          [action.payload.type]: action.payload.emails
+        }
+      };
+    case Types.CLEAR_VALIDATED:
+      return {
+        ...state,
+        recent: initialState.recent
       };
     default:
       return state;
@@ -45,18 +78,30 @@ export default function reducer(state = initialState, action) {
 // Action Creators
 
 /**
+ * Clear list of last validated emails
+ */
+export function clearValidated() {
+  return {
+    type: Types.CLEAR_VALIDATED
+  };
+}
+
+/**
  * @param form to submit
  * @param type - type of validate(mass, one)
  */
-export function validate(form, type) {
+export function validate(mails, type) {
   return dispatch => {
     dispatch({ type: Types.VALIDATE_REQUEST });
 
-    axios.post('/email/validate/' + type, form).then(
+    axios.post('/email/validate', { mails, type }).then(
       res => {
         dispatch({
           type: Types.VALIDATE_SUCCESS,
-          payload: res.data.user
+          payload: {
+            type: type,
+            emails: res.data.mailsValidated
+          }
         });
       },
       err => {

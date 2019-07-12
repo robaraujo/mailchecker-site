@@ -21,7 +21,7 @@ import { CircularProgress, Typography } from '@material-ui/core';
 import { Dashboard as DashboardLayout } from 'layouts';
 
 // Custom components
-import { EmailsToolbar, EmailMassChecker } from './components';
+import { EmailsToolbar, EmailMassChecker, EmailOneChecker } from './components';
 
 // Component styles
 import styles from './style';
@@ -35,10 +35,6 @@ class Emails extends Component {
 
   state = {
     checkerType: 0
-  };
-
-  onSubmit = (form, type) => {
-    this.props.onValidate(form, type);
   };
 
   renderUsers() {
@@ -68,28 +64,8 @@ class Emails extends Component {
 
     return (
       <DashboardLayout title="Valide seus e-mails">
-        <Grid container>
-          <Grid item sm={4} xs={12}>
-            <AppBar position="static">
-              <Tabs
-                value={checkerType}
-                onChange={(e, val) => this.setState({ checkerType: val })}>
-                <Tab label="Em massa" />
-                <Tab label="Única" />
-              </Tabs>
-            </AppBar>
-            {checkerType === 0 && (
-              <EmailMassChecker
-                onSubmit={form => this.onSubmit(form, 'mass')}
-              />
-            )}
-            {checkerType === 1 && <EmailMassChecker />}
-          </Grid>
-          <Grid item sm={8} xs={12}>
-            <EmailsToolbar selectedUsers={[]} />
-            {this.renderUsers()}
-          </Grid>
-        </Grid>
+        <EmailsToolbar selectedUsers={[]} />
+        {this.renderUsers()}
       </DashboardLayout>
     );
   }
@@ -109,7 +85,7 @@ const mapStateToProps = ({ email }) => {
 const mapDispatchToProps = dispatch => {
   return {
     onGetAll: () => dispatch(getAll()),
-    onValidate: (form, type) => dispatch(validate(form, type))
+    onValidate: mails => dispatch(validate(mails))
   };
 };
 
