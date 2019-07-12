@@ -5,15 +5,15 @@ import compose from 'recompose/compose';
 import PropTypes from 'prop-types';
 
 // Material helpers
-import { withStyles, Grid, IconButton, Paper } from '@material-ui/core';
+import { withStyles, Grid, IconButton, Paper, Slide } from '@material-ui/core';
 import { Close as CloseIcon } from '@material-ui/icons';
 
 // Shared layouts
 import { Dashboard as DashboardLayout } from 'layouts';
 
 // Custom components
-import { EmailOneChecker } from './components';
-import { ListEmails } from 'components';
+import { EmailOneChecker, SelectFile } from './components';
+import { ListEmails, DoughnutEmails } from 'components';
 
 // Component styles
 import styles from './style';
@@ -28,17 +28,36 @@ class EmailValidate extends Component {
   }
 
   render() {
-    const { classes } = this.props;
-    const validated = this.props.emailStore.recent.one;
+    const { classes, multiple, emailStore } = this.props;
+    const validateList = multiple
+      ? emailStore.recent.mass
+      : emailStore.recent.one;
 
     return (
       <DashboardLayout title="Valide seus e-mails">
         <div className={classes.root}>
           <Grid container spacing={3} className={classes.emailMassContainer}>
-            <Grid item sm={6} xs={12}>
-              <EmailOneChecker onSubmit={mail => this.props.onValidate(mail)} />
+            <Grid item md={6} xs={12}>
+              <Paper className={classes.control}>
+                {multiple ? (
+                  <SelectFile
+                    onSubmit={mails => this.props.onValidate(mails, 'mass')}
+                    className={classes.control}
+                  />
+                ) : (
+                  <EmailOneChecker
+                    onSubmit={mail => this.props.onValidate(mail, 'one')}
+                  />
+                )}
+              </Paper>
             </Grid>
-            {!!validated && (
+            <Slide
+              direction="right"
+              in={validateList}
+              style={{ transformOrigin: '0 0 0' }}
+              {...(validateList ? { timeout: 1500 } : {})}
+              mountOnEnter
+              unmountOnExit>
               <Grid item sm={6} xs={12}>
                 <Paper className={classes.control}>
                   <IconButton
@@ -47,10 +66,11 @@ class EmailValidate extends Component {
                     className={classes.iconClose}>
                     <CloseIcon />
                   </IconButton>
-                  <ListEmails emails={[validated]} />
+                  {multiple && <DoughnutEmails emails={validateList || []} />}
+                  <ListEmails emails={validateList || []} />
                 </Paper>
               </Grid>
-            )}
+            </Slide>
           </Grid>
         </div>
       </DashboardLayout>
@@ -71,7 +91,7 @@ const mapStateToProps = ({ email }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onValidate: mail => dispatch(validate(mail, 'on')),
+    onValidate: (mail, type) => dispatch(validate(mail, type)),
     onClearValidated: () => dispatch(clearValidated())
   };
 };

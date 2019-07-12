@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 
 // Material helpers
-import { withStyles, Typography, TextField, Button } from '@material-ui/core';
+import {
+  withStyles,
+  Typography,
+  TextField,
+  Button,
+  Grid
+} from '@material-ui/core';
 
 // Component styles
 import styles from './styles';
@@ -26,26 +32,36 @@ class EmailOneChecker extends Component {
   };
 
   render() {
-    const { classes, className } = this.props;
+    const { classes } = this.props;
     const { email, error } = this.state;
-    const inputClassName = classNames(classes.root, className);
 
     return (
-      <div className={classes.emailOneContainer}>
-        <TextField
-          id="outlined-dense"
-          className={inputClassName}
-          margin="dense"
-          variant="outlined"
-          value={email}
-          onChange={e => this.setState({ email: e.target.value })}
-        />
-        {!!error && (
-          <Typography variant="body2" className={classes.danger}>
-            {error}
-          </Typography>
-        )}
-        <Button onClick={this.validate}>Validar</Button>
+      <div>
+        <Typography variant="h4" className={classes.title}>
+          Validação única
+        </Typography>
+        <div className={classes.inputContainer}>
+          <TextField
+            id="outlined-dense"
+            className={classes.input}
+            margin="dense"
+            variant="outlined"
+            value={email}
+            onChange={e => this.setState({ email: e.target.value })}
+          />
+          {!!error && (
+            <Typography variant="body2" className={classes.danger}>
+              {error}
+            </Typography>
+          )}
+        </div>
+        <Button
+          variant="contained"
+          color="primary"
+          className={classes.btn}
+          onClick={this.validate}>
+          Validar
+        </Button>
       </div>
     );
   }

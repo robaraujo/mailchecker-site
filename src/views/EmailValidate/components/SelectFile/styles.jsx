@@ -1,7 +1,7 @@
 export default theme => ({
   root: {},
   iconWrapper: {
-    margin: '0 auto',
+    margin: '40px auto',
     alignItems: 'center',
     backgroundColor: theme.palette.primary.main,
     color: 'white',

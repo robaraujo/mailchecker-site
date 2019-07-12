@@ -66,19 +66,6 @@ class Sidebar extends Component {
             activeClassName={classes.activeListItem}
             className={classes.listItem}
             component={NavLink}
-            to="/dashboard">
-            <ListItemIcon className={classes.listItemIcon}>
-              <DashboardIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Dashboard"
-            />
-          </ListItem>
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
             to="/email-validate">
             <ListItemIcon className={classes.listItemIcon}>
               <Email />
@@ -99,6 +86,19 @@ class Sidebar extends Component {
             <ListItemText
               classes={{ primary: classes.listItemText }}
               primary="Validação em remessa"
+            />
+          </ListItem>
+          <ListItem
+            activeClassName={classes.activeListItem}
+            className={classes.listItem}
+            component={NavLink}
+            to="/api-integration">
+            <ListItemIcon className={classes.listItemIcon}>
+              <Email />
+            </ListItemIcon>
+            <ListItemText
+              classes={{ primary: classes.listItemText }}
+              primary="Api de integração"
             />
           </ListItem>
           <ListItem

@@ -4,15 +4,13 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 // Views
-import Dashboard from './views/Dashboard';
 import Emails from './views/Emails';
 import EmailValidate from './views/EmailValidate';
-import EmailValidateMass from './views/EmailValidateMass';
+import Api from './views/Api';
 import Account from './views/Account';
 import Settings from './views/Settings';
 import SignUp from './views/SignUp';
 import SignIn from './views/SignIn';
-import UnderDevelopment from './views/UnderDevelopment';
 import NotFound from './views/NotFound';
 import Landing from 'views/Landing';
 
@@ -55,23 +53,17 @@ class Routes extends Component {
         <Route component={Landing} exact path="/" />
         <PrivateRoute
           auth={!auth}
-          redir="/dashboard"
+          redir="/email-validate"
           component={SignUp}
           exact
           path="/sign-up"
         />
         <PrivateRoute
           auth={!auth}
-          redir="/dashboard"
+          redir="/email-validate"
           component={SignIn}
           exact
           path="/sign-in"
-        />
-        <PrivateRoute
-          auth={auth}
-          component={Dashboard}
-          exact
-          path="/dashboard"
         />
         <PrivateRoute
           auth={auth}
@@ -81,15 +73,20 @@ class Routes extends Component {
         />
         <PrivateRoute
           auth={auth}
-          component={EmailValidateMass}
+          component={() => <EmailValidate multiple={true} />}
           exact
           path="/email-validate-mass"
+        />
+        <PrivateRoute
+          auth={auth}
+          component={Api}
+          exact
+          path="/api-integration"
         />
         <PrivateRoute auth={auth} component={Emails} exact path="/emails" />
         <PrivateRoute auth={auth} component={Account} exact path="/account" />
         <PrivateRoute auth={auth} component={Settings} exact path="/settings" />
         <Route component={NotFound} exact path="/not-found" />
-        <Route component={UnderDevelopment} exact path="/under-development" />
         <Redirect to="/not-found" />
       </Switch>
     );

@@ -1,10 +1,22 @@
 export default theme => ({
   root: {},
-  emailOneContainer: {
+  inputContainer: {
+    width: 'calc(100% - 120px)',
+    display: 'inline-block'
+  },
+  title: {
+    textAlign: 'center',
+    marginBottom: '20px'
+  },
+  input: {
+    margin: 0,
     width: '100%',
-    height: '550px',
-    zIndex: '20',
-    textAlign: 'center'
+    verticalAlign: 'middle'
+  },
+  btn: {
+    marginLeft: '20px',
+    height: '40px',
+    verticalAlign: 'top'
   },
   danger: {
     color: theme.palette.danger.main
