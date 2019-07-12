@@ -1,5 +1,7 @@
 export default theme => ({
-  root: {},
+  root: {
+    marginTop: '10px'
+  },
   tableRow: {
     height: '64px'
   },
@@ -23,5 +25,15 @@ export default theme => ({
     marginLeft: theme.spacing(2),
     fontWeight: 500,
     cursor: 'pointer'
+  },
+  iconSuccess: {
+    backgroundColor: theme.palette.success.main,
+    width: '35px',
+    height: '35px'
+  },
+  iconDanger: {
+    backgroundColor: theme.palette.danger.main,
+    width: '35px',
+    height: '35px'
   }
 });

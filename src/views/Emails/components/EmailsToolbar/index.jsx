@@ -2,38 +2,50 @@ import React, { Component } from 'react';
 
 // Externals
 import PropTypes from 'prop-types';
-import classNames from 'classnames';
 
 // Material helpers
-import { withStyles } from '@material-ui/core';
+import { withStyles, Typography } from '@material-ui/core';
 
 // Material components
-import { Button, Grid } from '@material-ui/core';
+import { Button } from '@material-ui/core';
 
 // Material icons
 import { ArrowUpward } from '@material-ui/icons';
-
-// Shared components
-import { SearchInput } from 'components';
 
 // Component styles
 import styles from './styles';
 
 class EmailsToolbar extends Component {
-  render() {
-    const { classes, className, selectedEmails } = this.props;
+  onExport() {
+    let emailsStr = '';
+    console.log(this.props.selectedEmails);
+    this.props.selectedEmails.forEach(email => {
+      emailsStr += email.email + '\n';
+    });
 
-    const rootClassName = classNames(classes.root, className);
+    var element = document.createElement('a');
+    element.setAttribute(
+      'href',
+      'data:text/plain;charset=utf-8,' + encodeURIComponent(emailsStr)
+    );
+    element.setAttribute('download', 'emails.txt');
+    element.style.display = 'none';
+    document.body.appendChild(element);
+    element.click();
+    document.body.removeChild(element);
+  }
+
+  render() {
+    const { classes, selectedEmails } = this.props;
 
     return (
       <div className={classes.toolbarContainer}>
-        <div className={classes.searchInputWrap}>
-          <SearchInput
-            className={classes.searchInput}
-            placeholder="Search email"
-          />
-        </div>
+        <Typography variant="body" className={classes.selectedText}>
+          <b>{selectedEmails.length}</b> e-mail(s) selecionado(s)
+        </Typography>
         <Button
+          onClick={() => this.onExport()}
+          disabled={!selectedEmails.length}
           className={classes.exportButton}
           size="small"
           variant="outlined">

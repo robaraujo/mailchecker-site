@@ -5,23 +5,13 @@ import compose from 'recompose/compose';
 import PropTypes from 'prop-types';
 
 // Material helpers
-import {
-  withStyles,
-  Grid,
-  AppBar,
-  Tabs,
-  Tab,
-  TabContainer
-} from '@material-ui/core';
-
-// Material components
-import { CircularProgress, Typography } from '@material-ui/core';
+import { withStyles, Paper } from '@material-ui/core';
 
 // Shared layouts
 import { Dashboard as DashboardLayout } from 'layouts';
 
 // Custom components
-import { EmailsToolbar, EmailMassChecker, EmailOneChecker } from './components';
+import { EmailsToolbar, EmailsTable } from './components';
 
 // Component styles
 import styles from './style';
@@ -31,41 +21,29 @@ import { connect } from 'react-redux';
 import { getAll, validate } from '../../store/email';
 
 class Emails extends Component {
-  signal = true;
-
   state = {
-    checkerType: 0
+    selectedEmails: []
   };
 
-  renderUsers() {
-    const { email, classes } = this.props;
-
-    if (email.loading) {
-      return (
-        <div className={classes.progressWrapper}>
-          <CircularProgress />
-        </div>
-      );
-    }
-
-    if (!!email.error) {
-      return <Typography variant="h6">{email.error}</Typography>;
-    }
-
-    if (email.list.length === 0) {
-      return <Typography variant="h6">There are no users</Typography>;
-    }
-
-    //return <UsersTable onSelect={this.handleSelect} users={users} />;
+  componentDidMount() {
+    this.props.onGetAll();
   }
 
   render() {
-    const { checkerType } = this.state;
+    const { emailStore, classes } = this.props;
+    const { selectedEmails } = this.state;
 
     return (
-      <DashboardLayout title="Valide seus e-mails">
-        <EmailsToolbar selectedUsers={[]} />
-        {this.renderUsers()}
+      <DashboardLayout title="E-mails checados">
+        <div className={classes.root}>
+          <Paper className={classes.control}>
+            <EmailsToolbar selectedEmails={selectedEmails} />
+            <EmailsTable
+              onSelect={selectedEmails => this.setState({ selectedEmails })}
+              emails={emailStore.list}
+            />
+          </Paper>
+        </div>
       </DashboardLayout>
     );
   }
@@ -78,7 +56,7 @@ Emails.propTypes = {
 
 const mapStateToProps = ({ email }) => {
   return {
-    email: email
+    emailStore: email
   };
 };
 

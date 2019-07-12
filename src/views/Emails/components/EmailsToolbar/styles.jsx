@@ -1,14 +1,11 @@
 export default theme => ({
   root: {},
   toolbarContainer: {
-    display: 'flex'
+    textAlign: 'right'
   },
-  searchInputWrap: {
-    width: 'calc(100% - 98px)'
-  },
-  exportButton: {
-    padding: '8px 8px',
-    height: '40px'
+  selectedText: {
+    marginRight: theme.spacing(1),
+    verticalAlign: 'sub'
   },
   exportIcon: {
     marginRight: theme.spacing(1)

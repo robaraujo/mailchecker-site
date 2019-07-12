@@ -16,14 +16,12 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
-  ListSubheader,
   Typography
 } from '@material-ui/core';
 
 // Material icons
 import {
   DashboardOutlined as DashboardIcon,
-  InfoOutlined as InfoIcon,
   AccountBoxOutlined as AccountBoxIcon,
   SettingsOutlined as SettingsIcon,
   Email
@@ -31,10 +29,11 @@ import {
 
 // Component styles
 import styles from './styles';
+import { AvatarOrInitials } from '../../../../components';
 
 class Sidebar extends Component {
   render() {
-    const { classes, className } = this.props;
+    const { classes, className, auth } = this.props;
 
     const rootClassName = classNames(classes.root, className);
 
@@ -43,7 +42,7 @@ class Sidebar extends Component {
         <div className={classes.logoWrapper}>
           <Link className={classes.logoLink} to="/">
             <img
-              alt="Brainalytica logo"
+              alt="MailChecker logo"
               className={classes.logoImage}
               src="/images/logos/brainalytica_logo.svg"
             />
@@ -52,17 +51,13 @@ class Sidebar extends Component {
         <Divider className={classes.logoDivider} />
         <div className={classes.profile}>
           <Link to="/account">
-            <Avatar
-              alt="Roman Kutepov"
-              className={classes.avatar}
-              src="/images/avatars/avatar_1.png"
-            />
+            <AvatarOrInitials user={auth.user} />
           </Link>
           <Typography className={classes.nameText} variant="h6">
-            Roman Kutepov
+            {auth.user.firstName + ' ' + auth.user.lastName}
           </Typography>
           <Typography className={classes.bioText} variant="caption">
-            Brain Director
+            Usuário
           </Typography>
         </div>
         <Divider className={classes.profileDivider} />
@@ -130,42 +125,6 @@ class Sidebar extends Component {
             <ListItemText
               classes={{ primary: classes.listItemText }}
               primary="Account"
-            />
-          </ListItem>
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
-            to="/settings">
-            <ListItemIcon className={classes.listItemIcon}>
-              <SettingsIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Settings"
-            />
-          </ListItem>
-        </List>
-        <Divider className={classes.listDivider} />
-        <List
-          component="div"
-          disablePadding
-          subheader={
-            <ListSubheader className={classes.listSubheader}>
-              Support
-            </ListSubheader>
-          }>
-          <ListItem
-            className={classes.listItem}
-            component="a"
-            href="https://devias.io/contact-us"
-            target="_blank">
-            <ListItemIcon className={classes.listItemIcon}>
-              <InfoIcon />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Customer support"
             />
           </ListItem>
         </List>

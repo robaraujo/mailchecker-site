@@ -39,12 +39,9 @@ const states = [
 
 class Account extends Component {
   state = {
-    firstName: 'John',
-    lastName: 'Doe',
-    email: 'contact@devias.io',
-    phone: '',
-    state: 'Alabama',
-    country: 'USA'
+    firstName: '',
+    lastName: '',
+    email: ''
   };
 
   handleChange = e => {
@@ -55,31 +52,25 @@ class Account extends Component {
 
   render() {
     const { classes, className, ...rest } = this.props;
-    const { firstName, lastName, phone, state, country, email } = this.state;
+    const { firstName, lastName, email } = this.props.user;
 
     const rootClassName = classNames(classes.root, className);
 
     return (
-      <Portlet
-        {...rest}
-        className={rootClassName}
-      >
+      <Portlet {...rest} className={rootClassName}>
         <PortletHeader>
           <PortletLabel
-            subtitle="The information can be edited"
-            title="Profile"
+            subtitle="A informação pode ser editada"
+            title="Perfil"
           />
         </PortletHeader>
         <PortletContent noPadding>
-          <form
-            autoComplete="off"
-            noValidate
-          >
+          <form autoComplete="off" noValidate>
             <div className={classes.field}>
               <TextField
                 className={classes.textField}
-                helperText="Please specify the first name"
-                label="First name"
+                helperText="Por favor especifique o primeiro nome"
+                label="Nome"
                 margin="dense"
                 required
                 value={firstName}
@@ -87,7 +78,7 @@ class Account extends Component {
               />
               <TextField
                 className={classes.textField}
-                label="Last name"
+                label="Sobrenome"
                 margin="dense"
                 required
                 value={lastName}
@@ -97,47 +88,10 @@ class Account extends Component {
             <div className={classes.field}>
               <TextField
                 className={classes.textField}
-                label="Email Address"
+                label="E-mail"
                 margin="dense"
                 required
                 value={email}
-                variant="outlined"
-              />
-              <TextField
-                className={classes.textField}
-                label="Phone Number"
-                margin="dense"
-                type="number"
-                value={phone}
-                variant="outlined"
-              />
-            </div>
-            <div className={classes.field}>
-              <TextField
-                className={classes.textField}
-                label="Select State"
-                margin="dense"
-                onChange={this.handleChange}
-                required
-                select
-                SelectProps={{ native: true }}
-                value={state}
-                variant="outlined">
-                {states.map(option => (
-                  <option
-                    key={option.value}
-                    value={option.value}
-                  >
-                    {option.label}
-                  </option>
-                ))}
-              </TextField>
-              <TextField
-                className={classes.textField}
-                label="Country"
-                margin="dense"
-                required
-                value={country}
                 variant="outlined"
               />
             </div>
@@ -145,10 +99,10 @@ class Account extends Component {
         </PortletContent>
         <PortletFooter className={classes.portletFooter}>
           <Button
+            onClick={() => alert('TODO')}
             color="primary"
-            variant="contained"
-          >
-            Save details
+            variant="contained">
+            Atualizar
           </Button>
         </PortletFooter>
       </Portlet>
@@ -157,6 +111,7 @@ class Account extends Component {
 }
 
 Account.propTypes = {
+  user: PropTypes.object.isRequired,
   className: PropTypes.string,
   classes: PropTypes.object.isRequired
 };

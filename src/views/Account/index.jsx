@@ -1,10 +1,8 @@
 import React, { Component } from 'react';
-
-// Externals
+import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-
-// Material helpers
 import { withStyles } from '@material-ui/core';
+import compose from 'recompose/compose';
 
 // Material components
 import { Grid } from '@material-ui/core';
@@ -26,32 +24,18 @@ class Account extends Component {
   state = { tabIndex: 0 };
 
   render() {
-    const { classes } = this.props;
+    const { classes, auth } = this.props;
+    console.log('auth', auth);
 
     return (
-      <DashboardLayout title="Account">
+      <DashboardLayout title="Perfil">
         <div className={classes.root}>
-          <Grid
-            container
-            spacing={4}
-          >
-            <Grid
-              item
-              lg={4}
-              md={6}
-              xl={4}
-              xs={12}
-            >
-              <AccountProfile />
+          <Grid container spacing={4}>
+            <Grid item lg={4} md={6} xl={4} xs={12}>
+              <AccountProfile user={auth.user} />
             </Grid>
-            <Grid
-              item
-              lg={8}
-              md={6}
-              xl={8}
-              xs={12}
-            >
-              <AccountDetails />
+            <Grid item lg={8} md={6} xl={8} xs={12}>
+              <AccountDetails user={auth.user} />
             </Grid>
           </Grid>
         </div>
@@ -64,4 +48,11 @@ Account.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Account);
+const mapStateToProps = ({ auth }) => {
+  return { auth: auth };
+};
+
+export default compose(
+  connect(mapStateToProps),
+  withStyles(styles)
+)(Account);

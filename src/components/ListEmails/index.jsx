@@ -5,7 +5,9 @@ import {
   ListItem,
   ListItemAvatar,
   ListItemText,
-  Avatar
+  Avatar,
+  CircularProgress,
+  LinearProgress
 } from '@material-ui/core';
 
 import {
@@ -21,28 +23,44 @@ import pallet from '../../theme/palette';
 const styles = theme => {
   return {
     root: {
-      borderRadius: '4px'
+      textAlign: 'center',
+      padding: '20px 0'
     }
   };
 };
 
-const ListEmails = props => (
-  <List dense={true}>
-    {props.emails.map(email => (
-      <ListItem>
-        <ListItemAvatar>
-          <Avatar
-            style={{
-              backgroundColor: pallet[email.valid ? 'success' : 'danger'].main
-            }}>
-            {email.valid ? <DoneIcon /> : <ErrorIcon />}
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary={email.email} />
-      </ListItem>
-    ))}
-  </List>
-);
+const ListEmails = props => {
+  const { classes, emails } = props;
+
+  if (!emails) {
+    return (
+      <div className={classes.root}>
+        <LinearProgress />
+      </div>
+    );
+  }
+  if (!emails) {
+    return <div className={classes.root}>Nenhum e-mail encontrado</div>;
+  }
+
+  return (
+    <List className={classes.root} dense={true}>
+      {emails.map(email => (
+        <ListItem>
+          <ListItemAvatar>
+            <Avatar
+              style={{
+                backgroundColor: pallet[email.valid ? 'success' : 'danger'].main
+              }}>
+              {email.valid ? <DoneIcon /> : <ErrorIcon />}
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary={email.email} />
+        </ListItem>
+      ))}
+    </List>
+  );
+};
 
 ListEmails.propTypes = {
   emails: PropTypes.array,

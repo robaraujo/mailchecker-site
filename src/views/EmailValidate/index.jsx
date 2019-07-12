@@ -5,7 +5,8 @@ import compose from 'recompose/compose';
 import PropTypes from 'prop-types';
 
 // Material helpers
-import { withStyles, Link, AppBar, Tabs, Tab } from '@material-ui/core';
+import { withStyles, Grid, IconButton, Paper } from '@material-ui/core';
+import { Close as CloseIcon } from '@material-ui/icons';
 
 // Shared layouts
 import { Dashboard as DashboardLayout } from 'layouts';
@@ -70,7 +71,7 @@ const mapStateToProps = ({ email }) => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onValidate: mail => dispatch(validate(mails, 'on')),
+    onValidate: mail => dispatch(validate(mail, 'on')),
     onClearValidated: () => dispatch(clearValidated())
   };
 };

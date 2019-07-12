@@ -3,7 +3,7 @@ import compose from 'recompose/compose';
 import PropTypes from 'prop-types';
 
 // Material helpers
-import { withStyles, Grid, Paper, IconButton } from '@material-ui/core';
+import { withStyles, Grid, Paper, IconButton, Slide } from '@material-ui/core';
 import { Close as CloseIcon } from '@material-ui/icons';
 
 import { Dashboard as DashboardLayout } from 'layouts';
@@ -30,7 +30,7 @@ class EmailValidateMass extends Component {
       <DashboardLayout title="Validação em remessa">
         <div className={classes.root}>
           <Grid container spacing={3} className={classes.emailMassContainer}>
-            <Grid item sm={6} xs={12}>
+            <Grid item sm={6} xs={12} style={{ zIndex: 1 }}>
               <Paper>
                 <SelectFile
                   onSubmit={this.props.onValidate}
@@ -38,7 +38,13 @@ class EmailValidateMass extends Component {
                 />
               </Paper>
             </Grid>
-            {!!listValidated && (
+            <Slide
+              direction="right"
+              in={listValidated}
+              style={{ transformOrigin: '0 0 0' }}
+              timeout={1500}
+              mountOnEnter
+              unmountOnExit>
               <Grid item sm={6} xs={12}>
                 <Paper className={classes.control}>
                   <IconButton
@@ -47,11 +53,11 @@ class EmailValidateMass extends Component {
                     className={classes.iconClose}>
                     <CloseIcon />
                   </IconButton>
-                  <DoughnutEmails emails={listValidated} />
-                  <ListEmails emails={listValidated} />
+                  <DoughnutEmails emails={listValidated || []} />
+                  <ListEmails emails={listValidated || []} />
                 </Paper>
               </Grid>
-            )}
+            </Slide>
           </Grid>
         </div>
       </DashboardLayout>

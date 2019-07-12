@@ -1,15 +1,12 @@
 import React, { Component } from 'react';
-
-// Externals
 import PropTypes from 'prop-types';
-
-// Material helpers
-import { withStyles } from '@material-ui/core';
+import compose from 'recompose/compose';
 
 // Material components
+import { withStyles } from '@material-ui/core';
 import { Grid } from '@material-ui/core';
 
-// Shared layouts
+// local files
 import { Dashboard as DashboardLayout } from 'layouts';
 
 // Custom components
@@ -22,6 +19,10 @@ import {
   DevicesChart
 } from './components';
 
+// redux
+import { connect } from 'react-redux';
+import { getAll } from '../../store/email';
+
 // Component styles
 const styles = theme => ({
   root: {
@@ -33,8 +34,12 @@ const styles = theme => ({
 });
 
 class Dashboard extends Component {
+  componentDidMount() {
+    this.props.onGetAll();
+  }
+
   render() {
-    const { classes } = this.props;
+    const { classes, emailStore } = this.props;
 
     return (
       <DashboardLayout title="Dashboard">
@@ -53,7 +58,7 @@ class Dashboard extends Component {
               <Profit className={classes.item} />
             </Grid>
             <Grid item lg={8} md={12} xl={9} xs={12}>
-              <SalesChart className={classes.item} />
+              <SalesChart emails={emailStore.list} className={classes.item} />
             </Grid>
             <Grid item lg={4} md={6} xl={3} xs={12}>
               <DevicesChart className={classes.item} />
@@ -69,4 +74,20 @@ Dashboard.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default withStyles(styles)(Dashboard);
+const mapStateToProps = ({ email }) => {
+  return { emailStore: email };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    onGetAll: () => dispatch(getAll())
+  };
+};
+
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withStyles(styles)
+)(Dashboard);

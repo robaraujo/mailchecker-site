@@ -46,16 +46,6 @@ export default function reducer(state = initialState, action) {
         error: action.payload
       };
     case Types.VALIDATE_SUCCESS:
-      console.log(action.payload);
-      console.log({
-        ...state,
-        loading: false,
-        error: action.payload,
-        recent: {
-          ...state.recent,
-          [action.payload.type]: action.payload.emails
-        }
-      });
       return {
         ...state,
         loading: false,
@@ -125,7 +115,7 @@ export function getAll() {
       res => {
         dispatch({
           type: Types.LIST_SUCCESS,
-          payload: res.data.user
+          payload: res.data.emails
         });
       },
       err => {

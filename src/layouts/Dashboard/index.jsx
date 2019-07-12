@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import { connect } from 'react-redux';
 
 // Externals
 import classNames from 'classnames';
@@ -39,7 +40,7 @@ class Dashboard extends Component {
   };
 
   render() {
-    const { classes, width, title, children } = this.props;
+    const { classes, width, title, children, auth } = this.props;
     const { isOpen } = this.state;
 
     const isMobile = ['xs', 'sm', 'md'].includes(width);
@@ -61,15 +62,13 @@ class Dashboard extends Component {
           classes={{ paper: classes.drawerPaper }}
           onClose={this.handleClose}
           open={isOpen}
-          variant={isMobile ? 'temporary' : 'persistent'}
-        >
-          <Sidebar className={classes.sidebar} />
+          variant={isMobile ? 'temporary' : 'persistent'}>
+          <Sidebar auth={auth} className={classes.sidebar} />
         </Drawer>
         <main
           className={classNames(classes.content, {
             [classes.contentShift]: shiftContent
-          })}
-        >
+          })}>
           {children}
           <Footer />
         </main>
@@ -86,7 +85,14 @@ Dashboard.propTypes = {
   width: PropTypes.string.isRequired
 };
 
+const mapStateToProps = ({ auth }) => {
+  return {
+    auth: auth
+  };
+};
+
 export default compose(
+  connect(mapStateToProps),
   withStyles(styles),
   withWidth()
 )(Dashboard);
