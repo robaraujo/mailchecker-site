@@ -21,9 +21,7 @@ import {
 
 // Material icons
 import {
-  DashboardOutlined as DashboardIcon,
   AccountBoxOutlined as AccountBoxIcon,
-  SettingsOutlined as SettingsIcon,
   Email
 } from '@material-ui/icons';
 
@@ -44,7 +42,7 @@ class Sidebar extends Component {
             <img
               alt="MailChecker logo"
               className={classes.logoImage}
-              src="/images/logos/brainalytica_logo.svg"
+              src="/images/logos/logo-text.png"
             />
           </Link>
         </div>
@@ -86,19 +84,6 @@ class Sidebar extends Component {
             <ListItemText
               classes={{ primary: classes.listItemText }}
               primary="Validação em remessa"
-            />
-          </ListItem>
-          <ListItem
-            activeClassName={classes.activeListItem}
-            className={classes.listItem}
-            component={NavLink}
-            to="/api-integration">
-            <ListItemIcon className={classes.listItemIcon}>
-              <Email />
-            </ListItemIcon>
-            <ListItemText
-              classes={{ primary: classes.listItemText }}
-              primary="Api de integração"
             />
           </ListItem>
           <ListItem

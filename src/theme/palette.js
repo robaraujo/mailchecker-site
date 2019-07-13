@@ -9,9 +9,9 @@ export default {
   },
   primary: {
     contrastText: white,
-    main: '#0767DB',
+    main: '#ae85e5',
     light: '#F6F9FD',
-    dark: '#0B48A0'
+    dark: '#8e4de4'
   },
   secondary: {
     contrastText: white,

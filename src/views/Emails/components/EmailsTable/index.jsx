@@ -20,7 +20,8 @@ import {
   TableHead,
   TableRow,
   Typography,
-  TablePagination
+  TablePagination,
+  LinearProgress
 } from '@material-ui/core';
 
 import {
@@ -43,7 +44,6 @@ class EmailsTable extends Component {
 
   handleSelectAll = event => {
     const { emails, onSelect } = this.props;
-
     let selectedEmails;
 
     if (event.target.checked) {
@@ -104,6 +104,10 @@ class EmailsTable extends Component {
     const rootClassName = classNames(classes.root, className);
     const start = page * rowsPerPage;
     const end = start + rowsPerPage;
+
+    if (!emails) {
+      return <LinearProgress />;
+    }
 
     return (
       <Portlet className={rootClassName}>

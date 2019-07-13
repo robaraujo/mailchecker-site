@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { alert } from './alert';
+import { reset as resetEmail } from './email';
 
 // Action Types
 export const Types = {
@@ -39,7 +39,6 @@ export default function reducer(state = initialState, action) {
       };
     case Types.REGISTER_FAILURE:
     case Types.LOGIN_FAILURE:
-      console.log('teste', action.payload);
       return {
         ...state,
         loading: false,
@@ -55,7 +54,12 @@ export default function reducer(state = initialState, action) {
 // Action Creators
 
 export function reset() {
-  return { type: Types.RESET };
+  console.log('reseting auth');
+
+  return dispatch => {
+    dispatch({ type: Types.RESET });
+    dispatch(resetEmail());
+  };
 }
 
 export function register(form) {

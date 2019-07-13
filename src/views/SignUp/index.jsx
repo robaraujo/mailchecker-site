@@ -96,6 +96,12 @@ class SignUp extends Component {
     this.props.onReset();
   };
 
+  keyPressed = event => {
+    if (event.key === 'Enter') {
+      this.handleSignUp();
+    }
+  };
+
   handleSignUp = async () => {
     const { values } = this.state;
 
@@ -129,15 +135,18 @@ class SignUp extends Component {
             <div className={classes.quote}>
               <div className={classes.quoteInner}>
                 <Typography className={classes.quoteText} variant="h1">
-                  Hella narwhal Cosby sweater McSweeney's, salvia kitsch before
-                  they sold out High Life.
+                  O verificador de e-mails #1
+                </Typography>
+                <Typography variant="h3" className={classes.quoteText}>
+                  MailChecker é o validador de e-mails líder global em
+                  satisfação dos clientes.
                 </Typography>
                 <div className={classes.person}>
                   <Typography className={classes.name} variant="body1">
-                    Takamaru Ayako
+                    Roberto Araujo
                   </Typography>
                   <Typography className={classes.bio} variant="body2">
-                    Manager at inVision
+                    Developer at MailChecker
                   </Typography>
                 </div>
               </div>
@@ -155,21 +164,23 @@ class SignUp extends Component {
               <div className={classes.contentBody}>
                 <form className={classes.form}>
                   <Typography className={classes.title} variant="h2">
-                    Create new account
+                    Criando uma conta
                   </Typography>
                   <Typography className={classes.subtitle} variant="body1">
-                    Use your work email to create new account... it's free.
+                    Use seu email de trabalho para criar uma nova conta ... é
+                    grátis.
                   </Typography>
                   <div className={classes.fields}>
                     <TextField
                       className={classes.textField}
-                      label="First name"
+                      label="Nome"
                       name="firstName"
                       onChange={event =>
                         this.handleFieldChange('firstName', event.target.value)
                       }
                       value={values.firstName}
                       variant="outlined"
+                      onKeyPress={this.keyPressed}
                     />
                     {showFirstNameError && (
                       <Typography
@@ -180,12 +191,13 @@ class SignUp extends Component {
                     )}
                     <TextField
                       className={classes.textField}
-                      label="Last name"
+                      label="Sobrenome"
                       onChange={event =>
                         this.handleFieldChange('lastName', event.target.value)
                       }
                       value={values.lastName}
                       variant="outlined"
+                      onKeyPress={this.keyPressed}
                     />
                     {showLastNameError && (
                       <Typography
@@ -196,7 +208,7 @@ class SignUp extends Component {
                     )}
                     <TextField
                       className={classes.textField}
-                      label="Email address"
+                      label="E-mail"
                       name="email"
                       onChange={event =>
                         this.handleFieldChange('email', event.target.value)
@@ -241,9 +253,9 @@ class SignUp extends Component {
                       <Typography
                         className={classes.policyText}
                         variant="body1">
-                        I have read the &nbsp;
+                        Eu li os &nbsp;
                         <Link className={classes.policyUrl} to="#">
-                          Terms and Conditions
+                          Termos e Condições
                         </Link>
                         .
                       </Typography>
@@ -271,13 +283,13 @@ class SignUp extends Component {
                       onClick={this.handleSignUp}
                       size="large"
                       variant="contained">
-                      Sign up now
+                      Registrar agora
                     </Button>
                   )}
                   <Typography className={classes.signIn} variant="body1">
-                    Have an account?&nbsp;
+                    Já tem conta?&nbsp;
                     <Link className={classes.signInUrl} to="/sign-in">
-                      Sign In
+                      Entrar
                     </Link>
                   </Typography>
                 </form>

@@ -6,7 +6,6 @@ import {
   ListItemAvatar,
   ListItemText,
   Avatar,
-  CircularProgress,
   LinearProgress
 } from '@material-ui/core';
 
@@ -17,20 +16,28 @@ import {
 
 import PropTypes from 'prop-types';
 
-import pallet from '../../theme/palette';
-
 // Component styles
 const styles = theme => {
   return {
     root: {
       textAlign: 'center',
       padding: '20px 0'
+    },
+    successItem: {
+      backgroundColor: theme.palette.success.main,
+      width: '35px',
+      height: '35px'
+    },
+    errorItem: {
+      backgroundColor: theme.palette.danger.main,
+      width: '35px',
+      height: '35px'
     }
   };
 };
 
 const ListEmails = props => {
-  const { classes, emails } = props;
+  const { classes, emails, className } = props;
 
   if (!emails) {
     return (
@@ -44,14 +51,12 @@ const ListEmails = props => {
   }
 
   return (
-    <List className={classes.root} dense={true}>
+    <List className={className} dense={true}>
       {emails.map(email => (
         <ListItem>
           <ListItemAvatar>
             <Avatar
-              style={{
-                backgroundColor: pallet[email.valid ? 'success' : 'danger'].main
-              }}>
+              className={email.valid ? classes.successItem : classes.errorItem}>
               {email.valid ? <DoneIcon /> : <ErrorIcon />}
             </Avatar>
           </ListItemAvatar>
@@ -64,6 +69,7 @@ const ListEmails = props => {
 
 ListEmails.propTypes = {
   emails: PropTypes.array,
+  className: PropTypes.string,
   classes: PropTypes.object.isRequired
 };
 

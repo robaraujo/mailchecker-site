@@ -18,7 +18,8 @@ export default theme => ({
     fontSize: 0
   },
   logoImage: {
-    cursor: 'pointer'
+    cursor: 'pointer',
+    maxWidth: '160px'
   },
   logoDivider: {
     marginBottom: theme.spacing(2)

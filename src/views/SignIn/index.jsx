@@ -55,7 +55,7 @@ class SignIn extends Component {
 
   componentDidUpdate = prevProps => {
     if (this.props.auth.user) {
-      this.props.history.push('/dashboard');
+      this.props.history.push('/email-validate');
     }
   };
 
@@ -86,6 +86,12 @@ class SignIn extends Component {
     this.props.onReset();
   };
 
+  keyPressed = event => {
+    if (event.key === 'Enter') {
+      this.handleSignIn();
+    }
+  };
+
   handleSignIn = async () => {
     this.props.onLogin(this.state.values);
   };
@@ -104,15 +110,18 @@ class SignIn extends Component {
             <div className={classes.quote}>
               <div className={classes.quoteInner}>
                 <Typography className={classes.quoteText} variant="h1">
-                  Hella narwhal Cosby sweater McSweeney's, salvia kitsch before
-                  they sold out High Life.
+                  O verificador de e-mails #1
+                </Typography>
+                <Typography variant="h3" className={classes.quoteText}>
+                  MailChecker é o validador de e-mails líder global em
+                  satisfação dos clientes.
                 </Typography>
                 <div className={classes.person}>
                   <Typography className={classes.name} variant="body1">
-                    Takamaru Ayako
+                    Roberto Araujo
                   </Typography>
                   <Typography className={classes.bio} variant="body2">
-                    Manager at inVision
+                    Developer at MailChecker
                   </Typography>
                 </div>
               </div>
@@ -130,10 +139,10 @@ class SignIn extends Component {
               <div className={classes.contentBody}>
                 <form className={classes.form}>
                   <Typography className={classes.title} variant="h2">
-                    Sign in
+                    Entrar
                   </Typography>
                   <Typography className={classes.subtitle} variant="body1">
-                    Sign in with social media
+                    Entrar usando redes sociais
                   </Typography>
                   <Button
                     className={classes.facebookButton}
@@ -153,12 +162,12 @@ class SignIn extends Component {
                     Login with Google
                   </Button>
                   <Typography className={classes.sugestion} variant="body1">
-                    or login with email address
+                    ou com seu endereço de e-mail
                   </Typography>
                   <div className={classes.fields}>
                     <TextField
                       className={classes.textField}
-                      label="Email address"
+                      label="E-mail"
                       name="email"
                       onChange={event =>
                         this.handleFieldChange('email', event.target.value)
@@ -166,6 +175,7 @@ class SignIn extends Component {
                       type="text"
                       value={values.email}
                       variant="outlined"
+                      onKeyPress={this.keyPressed}
                     />
                     {showEmailError && (
                       <Typography
@@ -184,6 +194,7 @@ class SignIn extends Component {
                       type="password"
                       value={values.password}
                       variant="outlined"
+                      onKeyPress={this.keyPressed}
                     />
                     {showPasswordError && (
                       <Typography
@@ -208,13 +219,13 @@ class SignIn extends Component {
                       onClick={this.handleSignIn}
                       size="large"
                       variant="contained">
-                      Sign in now
+                      Entrar Agora
                     </Button>
                   )}
                   <Typography className={classes.signUp} variant="body1">
-                    Don't have an account?{' '}
+                    Ainda não criou conta?{' '}
                     <Link className={classes.signUpUrl} to="/sign-up">
-                      Sign up
+                      Criar
                     </Link>
                   </Typography>
                 </form>

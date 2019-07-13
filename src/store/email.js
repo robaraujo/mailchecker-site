@@ -8,7 +8,8 @@ export const Types = {
   VALIDATE_REQUEST: 'email/VALIDATE_REQUEST',
   VALIDATE_FAILURE: 'email/VALIDATE_FAILURE',
   VALIDATE_SUCCESS: 'email/VALIDATE_SUCCESS',
-  CLEAR_VALIDATED: 'email/CLEAR_VALIDATED'
+  CLEAR_VALIDATED: 'email/CLEAR_VALIDATED',
+  RESET: 'email/RESET'
 };
 
 // Reducer
@@ -60,12 +61,24 @@ export default function reducer(state = initialState, action) {
         ...state,
         recent: initialState.recent
       };
+    case Types.RESET:
+      return initialState;
     default:
       return state;
   }
 }
 
 // Action Creators
+
+/**
+ * Reset store
+ */
+export function reset() {
+  console.log('reseting email');
+  return {
+    type: Types.RESET
+  };
+}
 
 /**
  * Clear list of last validated emails

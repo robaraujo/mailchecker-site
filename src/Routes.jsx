@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import config from 'config';
 
 // Views
 import Emails from './views/Emails';
 import EmailValidate from './views/EmailValidate';
 import Api from './views/Api';
 import Account from './views/Account';
-import Settings from './views/Settings';
 import SignUp from './views/SignUp';
 import SignIn from './views/SignIn';
 import NotFound from './views/NotFound';
@@ -34,7 +34,7 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
 
 class Routes extends Component {
   componentDidMount() {
-    axios.defaults.baseURL = 'http://localhost:3000';
+    axios.defaults.baseURL = config.api;
     console.log(this.props.auth.token);
     axios.defaults.headers.common['authorization'] = this.props.auth.token;
   }
@@ -77,15 +77,8 @@ class Routes extends Component {
           exact
           path="/email-validate-mass"
         />
-        <PrivateRoute
-          auth={auth}
-          component={Api}
-          exact
-          path="/api-integration"
-        />
         <PrivateRoute auth={auth} component={Emails} exact path="/emails" />
         <PrivateRoute auth={auth} component={Account} exact path="/account" />
-        <PrivateRoute auth={auth} component={Settings} exact path="/settings" />
         <Route component={NotFound} exact path="/not-found" />
         <Redirect to="/not-found" />
       </Switch>

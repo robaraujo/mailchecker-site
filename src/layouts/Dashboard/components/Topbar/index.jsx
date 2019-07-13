@@ -18,12 +18,8 @@ import { Badge, IconButton, Toolbar, Typography } from '@material-ui/core';
 import {
   Menu as MenuIcon,
   Close as CloseIcon,
-  NotificationsOutlined as NotificationsIcon,
   Input as InputIcon
 } from '@material-ui/icons';
-
-// Shared services
-import { getNotifications } from 'services/notification';
 
 // Component styles
 import styles from './styles';
@@ -38,28 +34,8 @@ class Topbar extends Component {
     notificationsEl: null
   };
 
-  async getNotifications() {
-    try {
-      const { notificationsLimit } = this.state;
-
-      const { notifications, notificationsCount } = await getNotifications(
-        notificationsLimit
-      );
-
-      if (this.signal) {
-        this.setState({
-          notifications,
-          notificationsCount
-        });
-      }
-    } catch (error) {
-      return;
-    }
-  }
-
   componentDidMount() {
     this.signal = true;
-    this.getNotifications();
   }
 
   componentWillUnmount() {

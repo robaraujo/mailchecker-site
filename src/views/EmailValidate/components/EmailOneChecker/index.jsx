@@ -20,6 +20,16 @@ class EmailOneChecker extends Component {
     email: ''
   };
 
+  keyPressed = event => {
+    if (event.key === 'Enter') {
+      this.validate();
+    }
+  };
+
+  inputChange = event => {
+    this.setState({ email: event.target.value, error: null });
+  };
+
   validate = () => {
     const { email } = this.state;
 
@@ -39,7 +49,11 @@ class EmailOneChecker extends Component {
       <div>
         <Typography variant="h4" className={classes.title}>
           Validação única
+          <Typography variant="body2">
+            Informe o e-mail que deseja testar no campo abaixo
+          </Typography>
         </Typography>
+
         <div className={classes.inputContainer}>
           <TextField
             id="outlined-dense"
@@ -47,7 +61,8 @@ class EmailOneChecker extends Component {
             margin="dense"
             variant="outlined"
             value={email}
-            onChange={e => this.setState({ email: e.target.value })}
+            onKeyPress={this.keyPressed}
+            onChange={this.inputChange}
           />
           {!!error && (
             <Typography variant="body2" className={classes.danger}>

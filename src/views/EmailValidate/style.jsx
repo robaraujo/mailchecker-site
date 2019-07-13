@@ -13,9 +13,10 @@ export default theme => ({
     right: '15px'
   },
   emailMassContainer: {
-    width: '100%',
-    height: '550px',
-    zIndex: '20',
     textAlign: 'center'
+  },
+  listEmails: {
+    maxHeight: '450px',
+    overflow: 'auto'
   }
 });

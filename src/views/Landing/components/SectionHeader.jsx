@@ -2,6 +2,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import { Link, scrollSpy, animateScroll } from 'react-scroll';
+import palette from '../../../theme/palette';
 
 import { mediaSize } from '../static/site/siteTools';
 
@@ -187,7 +188,7 @@ class PageHeader extends React.Component {
             ))}
             <ActionButton
               text={headerData.actionButton.text}
-              backgroundColor="#4B97E0"
+              backgroundColor={palette.primary.main}
               color="#fff"
               click={() => {
                 window.open(

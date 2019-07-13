@@ -52,13 +52,13 @@ class EmailValidate extends Component {
               </Paper>
             </Grid>
             <Slide
-              direction="right"
-              in={validateList}
+              direction="down"
+              in={!!validateList}
               style={{ transformOrigin: '0 0 0' }}
               {...(validateList ? { timeout: 1500 } : {})}
               mountOnEnter
               unmountOnExit>
-              <Grid item sm={6} xs={12}>
+              <Grid item md={6} xs={12}>
                 <Paper className={classes.control}>
                   <IconButton
                     onClick={this.props.onClearValidated}
@@ -67,7 +67,10 @@ class EmailValidate extends Component {
                     <CloseIcon />
                   </IconButton>
                   {multiple && <DoughnutEmails emails={validateList || []} />}
-                  <ListEmails emails={validateList || []} />
+                  <ListEmails
+                    className={classes.listEmails}
+                    emails={validateList || []}
+                  />
                 </Paper>
               </Grid>
             </Slide>
